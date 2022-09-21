@@ -2,7 +2,7 @@
 body {
     /* background-color: blue; */
     text-align: center;
-    background-image: url("/js/pic/starpicture.jpg");
+    background-image: url("js/pic/starpicture.jpg");
     background-repeat: no-repeat; 
     background-size: 300vh;
     /* background-image: unset; */
@@ -21,17 +21,23 @@ table{
     margin-right: 10%;
 }
 .cell {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border: 3px solid white;
+    
 }
 .un-clicked{
     background-color: rgb(0, 255, 255);
-    box-shadow: 13px 9px 13px 9px rgba(0,255,255,0);
-}
+    box-shadow: 13px 9px 13px 9px #192e2e00;
+    /* font-size: 0px;*/
+} 
 
 .un-clicked:hover{
     cursor: pointer;
     background-color: rgb(94, 190, 190);
 
+}
+.clicked{
+    font-size: 20px;
+    background-color: red;
 }

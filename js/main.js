@@ -18,6 +18,7 @@ var gGame = {isOn: false,
 
 
 function initGame(){
+    gGame.isOn = false
     buildBoard()
     renderBoard(gBoard)
 }
@@ -30,12 +31,51 @@ function buildBoard(){
             gBoard[i][j] = {
                 location: {i,j},
                 isShown: 'false',
-                containing: null
+                containing: ''
             }
-            gGame.emptyCoords.push({i,j})
         }
     }
 }
+
+function renderBoard(board){
+    var strHTML = '<table>\n'
+    for (var i = 0; i < gGame.level; i++){
+        strHTML += '<tr>\n'
+        for (var j = 0; j < gGame.level; j++){
+            strHTML += `<td class="cell cell-${i}-${j} un-clicked"
+            onmousedown="cellClicked(event,${i},${j})">${board[i][j].containing}</td>\n`
+        }
+        strHTML += '\n'
+    }
+    strHTML += '</table>'
+    var elBoard = document.querySelector('div')
+    elBoard.innerHTML = strHTML
+}
+
+function cellClicked(event, i, j){
+    if (event.button === 2) alert ('hi')
+    if (!gGame.isOn){
+        insertMines(i,j)
+        setMinesNegsCount(gBoard)
+        console.log(gBoard);
+        renderBoard(gBoard)
+        event.classList.remove("un-clicked");
+        event.classList.add("clicked");
+        gGame.isOn = !gGame.isOn
+    }
+}
+
+function insertMines(idx,jdx){
+    console.log('clicked:',idx,jdx);
+    findCellsForMines(idx,jdx)
+    for (var i = 1; i <= gGame.mineCount; i++){
+        var x = getRandomInt(0,gGame.emptyCoords.length)
+        var id = gGame.emptyCoords[x] 
+        gBoard[id.i][id.j].containing = gGAME.MINE 
+        gGame.emptyCoords.splice(x,1)
+    }
+}
+
 
 
 function setMinesNegsCount(board){
@@ -46,7 +86,17 @@ function setMinesNegsCount(board){
             board[i][j].containing = mineCounter
         }
     }
-    console.log('board after counting', board);
+}
+
+
+function findCellsForMines(idx,jdx){
+    gGame.emptyCoords = []
+    for (var i = 0; i < gBoard.length; i++){
+        for (var j = 0; j <  gBoard.length; j++){
+            if ( i >= idx - 1 && i <= idx + 1 && j >= jdx - 1 && j <= jdx + 1) continue
+            gGame.emptyCoords.push({i,j})
+        }
+    }
 }
 
 function negsCellCheck(board,i,j){  
@@ -64,29 +114,6 @@ function negsCellCheck(board,i,j){
     return mineCounter
 }
 
-function renderBoard(board){
-    var strHTML = '<table>\n'
-    for (var i = 0; i < gGame.level; i++){
-        strHTML += '<tr>\n'
-        for (var j = 0; j < gGame.level; j++){
-            strHTML += `<td class="cell cell-${i}-${j} un-clicked"
-             onclick="cellClicked(this,${i},${j})">${board[i][j].containing}</td>\n`
-        }
-        strHTML += '\n'
-    }
-    strHTML += '</table>\n'
-    var elBoard = document.querySelector('div')
-    elBoard.innerHTML = strHTML
-}
-
-function cellClicked(elCell, i, j){
-    if (!gGame.isOn){
-        console.log(gBoard)
-        insertMines(i,j)
-        setMinesNegsCount(gBoard)
-        renderBoard(gBoard)
-    }
-}
 
 function cellMarked(elCell){
 
@@ -104,13 +131,4 @@ function choseLevel(level,mines){
     gGame.level = level
     gGame.mineCount = mines
     initGame()
-}
-
-function insertMines(i,j){
-    var firstIdx = (i * 4) + j
-    gGame.emptyCoords.splice(firstIdx,1)
-    for (var i = 1; i <= gGame.mineCount; i++){
-        var idx = gGame.emptyCoords[getRandomInt(0,gGame.emptyCoords.length)] 
-        gBoard[idx.i][idx.j].containing = gGAME.MINE 
-    }
 }
