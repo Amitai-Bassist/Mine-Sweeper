@@ -31,6 +31,7 @@ function buildBoard(){
             gBoard[i][j] = {
                 location: {i,j},
                 isShown: 'false',
+                isMarked: 'false',
                 containing: ''
             }
         }
@@ -43,7 +44,7 @@ function renderBoard(board){
         strHTML += '<tr>\n'
         for (var j = 0; j < gGame.level; j++){
             strHTML += `<td class="cell cell-${i}-${j} un-clicked"
-            onmousedown="cellClicked(event,${i},${j})">${board[i][j].containing}</td>\n`
+            onmousedown="cellClicked(event,this,${i},${j})">${board[i][j].containing}</td>\n`
         }
         strHTML += '\n'
     }
@@ -52,15 +53,16 @@ function renderBoard(board){
     elBoard.innerHTML = strHTML
 }
 
-function cellClicked(event, i, j){
-    if (event.button === 2) alert ('hi')
-    if (!gGame.isOn){
+function cellClicked(event,el, i, j){
+    if (event.button === 2){
+        el.innerHTML = gGAME.FLAG
+    } else if (!gGame.isOn){
         insertMines(i,j)
         setMinesNegsCount(gBoard)
         console.log(gBoard);
         renderBoard(gBoard)
-        event.classList.remove("un-clicked");
-        event.classList.add("clicked");
+        el.classList.remove("un-clicked");
+        el.classList.add("clicked");
         gGame.isOn = !gGame.isOn
     }
 }
