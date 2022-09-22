@@ -6,7 +6,10 @@ const gEmoJi = {
             MINE: '💣',
             FLAG: '🚩',
             MINE_EXPLODED: '💥',
-
+            HAPPY: '🙂',
+            SCARED: '😨',
+            WIN: '😎',
+            LOSE: '☠',
             }
 var gLevel = {
     SIZE: 4,
@@ -14,7 +17,7 @@ var gLevel = {
 
 }
 
-var gGame = {isOn: false, 
+var gGame = {isOn: true, 
             emptyCoords: [],
             shownCount: 0, 
             markedCount: 0, 
@@ -23,8 +26,7 @@ var gGame = {isOn: false,
             lifeCount: 3,
             mineExploded: 0,
             lastMineCoord: {}
-            }
-
+}
 
 function initGame(){
     resetGame()
@@ -71,12 +73,14 @@ function renderBoard(board){
 }
 
 function cellClicked(event,el, i, j){
-    if (gGame.isOn) return
+    if (!gGame.isOn) return
     if (event.button === 2 && !gBoard[i][j].isShown){
         cellMarked(el,i,j)
         if (checkGameOver()){
             clearInterval(gClockInterval)
-            alert('you won!')
+            var elEmoji = document.querySelector('.emoji')
+            elEmoji.innerText = gEmoJi.WIN
+            gGame.isOn = false
         } 
     }
     if(event.button === 0){
@@ -106,16 +110,25 @@ function firstClick(event,el, i, j){
 
 function gameClick(event,el, i, j){
     if (gBoard[i][j].isShown) return
+    var elEmoji = document.querySelector('.emoji')
     if (gBoard[i][j].containing === gEmoJi.MINE){
         gBoard[i][j].isShown = true
+        elEmoji.innerText = gEmoJi.SCARED
+        gGame.shownCount++
         gGame.lifeCount--
+        var elLife = document.querySelector('.lives')
+        elLife.innerText = '💗  '.repeat(gGame.lifeCount)
+        var elMinesLeft = document.querySelector('.mines')
+        elMinesLeft.innerHTML = gLevel.MINES - gGame.markedCount - 3 + gGame.lifeCount
         gGame.mineExploded++
         gGame.lastMineCoord = {i,j}
         renderBoard(gBoard)
         setTimeout(makeExplosion,500)
         if (checkGameOver()){
             clearInterval(gClockInterval)
-            alert('you lose!')
+            elEmoji.innerText = gEmoJi.LOSE
+            revealAllMines()
+            gGame.isOn = false
             return
         }
     }
@@ -133,7 +146,7 @@ function gameClick(event,el, i, j){
     }
     if (checkGameOver()){
         clearInterval(gClockInterval)
-        alert('you won!')
+        elEmoji.innerText = gEmoJi.WIN
     } 
 }
 
@@ -189,6 +202,7 @@ function negsCellCheck(board,i,j){
 
 
 function cellMarked(el,i,j){
+    var elMinesLeft = document.querySelector('.mines')
     if(gBoard[i][j].isMarked){ 
         el.innerHTML = ''
         gGame.markedCount--
@@ -196,13 +210,14 @@ function cellMarked(el,i,j){
         el.innerHTML = gEmoJi.FLAG
         gGame.markedCount++
     } 
+    elMinesLeft.innerHTML = gLevel.MINES - gGame.markedCount - 3 + gGame.lifeCount
     gBoard[i][j].isMarked = !gBoard[i][j].isMarked
 }
 
 function checkGameOver(){
-    if (gGame.lifeCount === 0 || gGame.mineExploded === gLevel.MINES) return true
-    if (gGame.markedCount ===gLevel.MINES && 
-        gGame.shownCount === (gLevel.SIZE ** 2) - gGame.markedCount){
+    if (gGame.lifeCount === 0 || gGame.mineExploded === gLevel.MINES ||
+        (gGame.shownCount + gGame.markedCount === (gLevel.SIZE ** 2))){
+            gGame.isOn = false
             return true
     }
 }
@@ -232,7 +247,7 @@ function choseLevel(level,mines){
 }
 
 function resetGame(){
-    gGame = {isOn: false, 
+    gGame = {isOn: true, 
             emptyCoords: [],
             shownCount: 0, 
             markedCount: 0, 
@@ -240,11 +255,44 @@ function resetGame(){
             isFirstClick: true,
             lifeCount: 3,
             mineExploded: 0
-            }
-    clearInterval(gClockInterval)
+    }
+    var elLife = document.querySelector('.lives')
+    elLife.innerText = '💗  '.repeat(gGame.lifeCount)
+    var elMinesLeft = document.querySelector('.mines')
+    elMinesLeft.innerHTML = gLevel.MINES - gGame.markedCount - 3 + gGame.lifeCount
+    resetClock() 
 }
 
 function makeExplosion(){
     gBoard[gGame.lastMineCoord.i][gGame.lastMineCoord.j].containing = gEmoJi.MINE_EXPLODED
+    renderBoard(gBoard)
+}
+
+function userFace(event,el){
+    el.innerText = gEmoJi.HAPPY
+    initGame()
+}
+
+function revealAllMines(){
+    for (var i = 0; i < gBoard.length; i++){
+        for (var j = 0; j <  gBoard.length; j++){
+            if (gBoard[i][j].containing === gEmoJi.MINE){
+                gBoard[i][j].isShown = true
+            }
+        }
+    }
+    renderBoard(gBoard)
+    setTimeout(finishExplose,500)
+}
+
+function finishExplose(){
+    for (var i = 0; i < gBoard.length; i++){
+        for (var j = 0; j <  gBoard.length; j++){
+            if (gBoard[i][j].containing === gEmoJi.MINE){
+                gBoard[i][j].containing = gEmoJi.MINE_EXPLODED
+                gBoard[i][j].isShown = true
+            }
+        }
+    }
     renderBoard(gBoard)
 }

@@ -5,26 +5,36 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min)
 }
 
-var tens = "00"
-var seconds = "00"
+var gTens = "00"
+var gSeconds = "00"
 function clock(){
     var eltens = document.querySelector('.tens') 
     var elseconds = document.querySelector('.seconds') 
     
-      tens++; 
-    if(tens <= 9){
-        eltens.innerHTML = "0" + tens
+    gTens++; 
+    if(gTens <= 9){
+        eltens.innerHTML = "0" + gTens
     } 
-    if (tens > 9){
-        eltens.innerHTML = tens
+    if (gTens > 9){
+        eltens.innerHTML = gTens
     }   
-    if (tens > 99) {
-        seconds++;
-        elseconds.innerHTML = "0" + seconds
-        tens = 0;
+    if (gTens > 99) {
+        gSeconds++;
+        elseconds.innerHTML = "0" + gSeconds
+        gTens = 0;
         eltens.innerHTML = "0" + 0
     }  
-    if (seconds > 9){
-        elseconds.innerHTML = seconds
+    if (gSeconds > 9){
+        elseconds.innerHTML = gSeconds
     }
+}
+
+function resetClock(){
+    clearInterval(gClockInterval)
+    gTens = "00"
+    gSeconds = "00"
+    var eltens = document.querySelector('.tens') 
+    var elseconds = document.querySelector('.seconds') 
+    eltens.innerHTML = gTens
+    elseconds.innerHTML = gSeconds
 }
