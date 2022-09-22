@@ -1,5 +1,6 @@
 'uses strict'
-
+localStorage.setItem("bestPlayer", "Amitai");
+localStorage.setItem("bestTime", "300");
 var gBoard
 var gClockInterval
 const gEmoJi = {
@@ -18,14 +19,16 @@ var gLevel = {
 }
 
 var gGame = {isOn: true, 
-            emptyCoords: [],
+            emptyCoords: [], //array of available coords to insert mines
             shownCount: 0, 
             markedCount: 0, 
             secsPassed: 0,
             isFirstClick: true,
             lifeCount: 3,
             mineExploded: 0,
-            lastMineCoord: {}
+            lastMineCoord: {},
+            useHint: false,
+            hints: 3
 }
 
 function initGame(){
@@ -74,18 +77,22 @@ function renderBoard(board){
 
 function cellClicked(event,el, i, j){
     if (!gGame.isOn) return
-    if (event.button === 2 && !gBoard[i][j].isShown){
-        cellMarked(el,i,j)
-        if (checkGameOver()){
+    if (event.button === 2 && !gBoard[i][j].isShown){ //2 is right mouse click event, you can only put flag on cell that is not shown
+        cellMarked(el,i,j) //checks if there is a flag or not and put/removes it
+        if (checkGameOver()){ //checks if the game is ended
             clearInterval(gClockInterval)
             var elEmoji = document.querySelector('.emoji')
             elEmoji.innerText = gEmoJi.WIN
             gGame.isOn = false
+            checkBestWiner()
         } 
     }
-    if(event.button === 0){
-        if (gBoard[i][j].isMarked) return
-        if (gGame.isFirstClick){
+    if(event.button === 0){    //0 is left mouse click event
+        if (gGame.useHint) {  //apply a hint click
+            hintClick(i,j)
+        }
+        if (gBoard[i][j].isMarked) return //cant open a cell that haves a flag on it
+        if (gGame.isFirstClick){ //there is a different between the first click to the others
             firstClick(event,el, i, j)
             return
         }
@@ -147,6 +154,7 @@ function gameClick(event,el, i, j){
     if (checkGameOver()){
         clearInterval(gClockInterval)
         elEmoji.innerText = gEmoJi.WIN
+        checkBestWiner()
     } 
 }
 
@@ -174,7 +182,6 @@ function setMinesNegsCount(board){
     }
 }
 
-
 function findCellsForMines(idx,jdx){
     gGame.emptyCoords = []
     for (var i = 0; i < gBoard.length; i++){
@@ -199,7 +206,6 @@ function negsCellCheck(board,i,j){
     }
     return mineCounter
 }
-
 
 function cellMarked(el,i,j){
     var elMinesLeft = document.querySelector('.mines')
@@ -248,18 +254,23 @@ function choseLevel(level,mines){
 
 function resetGame(){
     gGame = {isOn: true, 
-            emptyCoords: [],
-            shownCount: 0, 
-            markedCount: 0, 
-            secsPassed: 0,
-            isFirstClick: true,
-            lifeCount: 3,
-            mineExploded: 0
+        emptyCoords: [],
+        shownCount: 0, 
+        markedCount: 0, 
+        secsPassed: 0,
+        isFirstClick: true,
+        lifeCount: 3,
+        mineExploded: 0,
+        lastMineCoord: {},
+        useHint: false,
+        hints: 3
     }
     var elLife = document.querySelector('.lives')
     elLife.innerText = '💗  '.repeat(gGame.lifeCount)
     var elMinesLeft = document.querySelector('.mines')
     elMinesLeft.innerHTML = gLevel.MINES - gGame.markedCount - 3 + gGame.lifeCount
+    var elBtn = document.querySelector('.hints')
+    elBtn.innerText = '💡  💡  💡'
     resetClock() 
 }
 
@@ -296,3 +307,20 @@ function finishExplose(){
     }
     renderBoard(gBoard)
 }
+
+function checkBestWiner(){
+    if (+localStorage.getItem("bestTime") > gSeconds){
+        var bestTime = gSeconds + ''
+        var bestPlayer = prompt('you are the best! what is your name?')
+        localStorage.bestTime = bestTime;
+        localStorage.bestPlayer = bestPlayer;
+        var elPlayer = document.querySelector('.player')
+        var elTime = document.querySelector('.time')
+        elPlayer.innerHTML = bestPlayer
+        elTime.innerHTML = bestTime
+    }
+}
+
+
+
+
