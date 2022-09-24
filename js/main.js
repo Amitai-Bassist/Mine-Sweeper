@@ -12,6 +12,7 @@ const gEmoJi = {
             WIN: '😎',
             LOSE: '☠',
             }
+
 var gLevel = {
     SIZE: 4,
     MINES: 2,
@@ -78,6 +79,7 @@ function renderBoard(board){
 function cellClicked(event,el, i, j){
     if (!gGame.isOn) return
     if (event.button === 2 && !gBoard[i][j].isShown){ //2 is right mouse click event, you can only put flag on cell that is not shown
+        if (gGame.markedCount === gLevel.MINES) return
         cellMarked(el,i,j) //checks if there is a flag or not and put/removes it
         if (checkGameOver()){ //checks if the game is ended
             clearInterval(gClockInterval)
@@ -122,9 +124,11 @@ function gameClick(event,el, i, j){
         gBoard[i][j].isShown = true
         elEmoji.innerText = gEmoJi.SCARED
         gGame.shownCount++
-        gGame.lifeCount--
+        if (gGame.markedCount !== gLevel.MINES) gGame.lifeCount--
         var elLife = document.querySelector('.lives')
-        elLife.innerText = '💗  '.repeat(gGame.lifeCount)
+        var strText = ' 💗 '.repeat(gGame.lifeCount)
+        strText += ' 🖤 '.repeat(3 - gGame.lifeCount)
+        elLife.innerText = strText
         var elMinesLeft = document.querySelector('.mines')
         elMinesLeft.innerHTML = gLevel.MINES - gGame.markedCount - 3 + gGame.lifeCount
         gGame.mineExploded++
@@ -222,7 +226,8 @@ function cellMarked(el,i,j){
 
 function checkGameOver(){
     if (gGame.lifeCount === 0 || gGame.mineExploded === gLevel.MINES ||
-        (gGame.shownCount + gGame.markedCount === (gLevel.SIZE ** 2))){
+        (gGame.shownCount + gGame.markedCount === (gLevel.SIZE ** 2)) &&
+        gGame.markedCount === gLevel.MINES){
             gGame.isOn = false
             return true
     }
@@ -321,6 +326,11 @@ function checkBestWiner(){
     }
 }
 
+function safeClick(){
+    if (gGame.isFirstClick){
+
+    }
+}
 
 
 
