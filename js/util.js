@@ -48,14 +48,22 @@ function useHint(){
     modal.style.display = "none"
     var elBtn = document.querySelector('.hints')
     gGame.hints--
+    if (gGame.hints === 0){
+        elBtn.innerText = '⛔'
+        return
+    }
     elBtn.innerText = '💡'.repeat(gGame.hints)
 }
 
 function hintClick(i,j){
+    var wasShown = []
     for (var idx = -1; idx  <=  1; idx++){
         for (var jdx = -1; jdx <=  1; jdx++){ //Neighbor loop for the cell
             if (i + idx < 0 || j + jdx < 0 || 
             i + idx === gBoard.length || j + jdx === gBoard.length) continue
+            if (gBoard[i + idx][j + jdx].isShown === true){
+                gBoard[i + idx][j + jdx].wasShown = true
+            }
             gBoard[i + idx][j + jdx].isShown = true
         }
     }
@@ -66,6 +74,7 @@ function hintClick(i,j){
                 for (var jdx = -1; jdx <=  1; jdx++){ //Neighbor loop for the cell
                     if (i + idx < 0 || j + jdx < 0 || 
                         i + idx === gBoard.length || j + jdx === gBoard.length) continue
+                        if (gBoard[i + idx][j + jdx].wasShown) continue
                         gBoard[i + idx][j + jdx].isShown = false
                 }
             }

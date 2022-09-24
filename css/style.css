@@ -12,13 +12,14 @@ h1{
     margin: 10px;
     margin-left: 20%;
     margin-right: 20%;
+    border: #FEF5AC solid 2px;
 }
 h2{
     margin: 10px;
     margin-bottom: 0;
     background-color: #647E68;
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 h4{
     margin-top: 2px;
@@ -74,7 +75,9 @@ td{
 button {
     background-color: #FEF5AC;
     border-radius: 20%;
-    height: 25px;
+    height: 31px;
+    font-size: large;
+    border: solid 4px #647E68;
 }
 .clicked{
     width: 49px;
@@ -150,10 +153,26 @@ button:hover{
 span{
     background-color: #0F3460;
     color: #FEF5AC;
+    padding: 1px;
+    border: solid #FEF5AC 2px;
+    margin: 1px;
 }
 
 .fx {
     width: 20px;
     min-width: 20px;
     max-width: 20px;
+}
+
+.safe{
+    background-color: blue;
+}
+
+.safeBtn{
+    background-color: #000;
+    color: red;
+}
+.safeBtn:hover{
+    cursor: none;
+    background-color: #000;
 }

@@ -13,8 +13,8 @@
     <button onclick="choseLevel(8,14)">Medium</button>
     <button onclick="choseLevel(12,32)">Expert</button>
     <h2>Lives: <span class="lives"> 💗 💗 💗 </span>         
-        Mines left to find: <span class="mines">2</span> 
-        best player until now: <span class="player">amitai</span> with time score: <span class="time">300</span>seconds</h2>
+        Mines left: <span class="mines">2</span>
+        best player: <span class="player">amitai</span>best time: <span class="time">300</span>sec</h2>
     <table class="clock">
         <tr>
             <td class="seconds">00</td>
@@ -24,14 +24,15 @@
     </table>
     <button onclick="userFace(event,this)" class="emoji">🙂</button>
     <button id="myBtn" class="hints">💡  💡  💡 </button>
-    <button onclick="safeClick()">safe click</button>
+    <button class="safeBtn btn" onclick="safeClick(this)">safe click</button>
+    <button class="" onclick="undo(this)">UNDO</button>
     <div>
     </div>
     <h4>Amitai Bassist - sprint 1 codding academy</h4>
     <div id="myModal" class="modal">
         <div class="modal-content">
           <span class="close">&times;</span>
-          <p>This is a hint! <br> Don't be tempted to use it so easely! <br> if you realy need it press ok..
+          <p>This is a hint! <br> Don't be tempted to use it so easely! <br> if you realy need it press 'use hint'..
         with the hint you can chose a cell and you will see for 1 second the cell and his neighbors </p>
           <button class="hint" onclick="useHint()">Use hint</button>
         </div>
