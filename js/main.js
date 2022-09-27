@@ -33,7 +33,8 @@ var gGame = {isOn: true,
             safeClickLeft: 3,
             moves: [], //for the undo function
             isManually: false,
-            minesToInput: 2
+            minesToInput: 2,
+            wrongChoise: false
 }
 
 function initGame(){
@@ -85,13 +86,21 @@ function cellClicked(event,el, i, j){
     if (!gGame.isOn) return
     if (event.button === 2 && !gBoard[i][j].isShown){ //2 is right mouse click event, you can only put flag on cell that is not shown
         if (gGame.markedCount === gLevel.MINES) return
+        if (gBoard[i][j].containing !== gEmoJi.MINE){
+            gGame.wrongChoise = true
+        }
         cellMarked(el,i,j) //checks if there is a flag or not and put/removes it
         if (checkGameOver()){ //checks if the game is ended
             clearInterval(gClockInterval)
             var elEmoji = document.querySelector('.emoji')
+            if (gGame.wrongChoise){
+                elEmoji.innerText = gEmoJi.LOSE
+                gGame.isOn = false
+                return
+            }
             elEmoji.innerText = gEmoJi.WIN
             gGame.isOn = false
-            checkBestWiner()
+            setTimeout(checkBestWiner,500)
         } 
     }
     if(event.button === 0){    //0 is left mouse click event
@@ -152,10 +161,13 @@ function gameClick(event,el, i, j){
         gGame.lastMineCoord = {i,j}
         renderBoard(gBoard)
         setTimeout(makeExplosion,500)
-        console.log('gGame.shownCount',gGame.shownCount);
-        console.log('gGame.markedCount',gGame.markedCount);
         if (checkGameOver()){
             clearInterval(gClockInterval)
+            if (gGame.wrongChoise){
+                elEmoji.innerText = gEmoJi.LOSE
+                gGame.isOn = false
+                return
+            }
             elEmoji.innerText = gEmoJi.LOSE
             revealAllMines()
             gGame.isOn = false
@@ -180,8 +192,13 @@ function gameClick(event,el, i, j){
     }
     if (checkGameOver()){
         clearInterval(gClockInterval)
+        if (gGame.wrongChoise){
+            elEmoji.innerText = gEmoJi.LOSE
+            gGame.isOn = false
+            return
+        }
         elEmoji.innerText = gEmoJi.WIN
-        checkBestWiner()
+        setTimeout(checkBestWiner,500)
     } 
 }
 
@@ -296,7 +313,8 @@ function resetGame(){
         safeClickLeft: 3,
         moves: [], //for the undo function
         isManually: false,
-        minesToInput: gLevel.MINES
+        minesToInput: gLevel.MINES,
+        wrongChoise: false
     }
     if (gLevel.SIZE === 4){
         var elLife = document.querySelector('.lives')
