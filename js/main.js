@@ -31,8 +31,9 @@ var gGame = {isOn: true,
             useHint: false,
             hints: 3,
             safeClickLeft: 3,
-            moves: [] //for the undo function
-
+            moves: [], //for the undo function
+            isManually: false,
+            minesToInput: 2
 }
 
 function initGame(){
@@ -57,7 +58,7 @@ function buildBoard(){
     }
 }
 
-function renderBoard(board){
+function renderBoard(board = gBoard){
     var strHTML = '<table>\n'
     for (var i = 0; i < gLevel.SIZE; i++){
         strHTML += '<tr>\n'
@@ -109,6 +110,10 @@ function cellClicked(event,el, i, j){
 }
 
 function firstClick(event,el, i, j){
+    if (gGame.isManually){
+        inputMines(el,i,j)
+        return
+    }
     gClockInterval = setInterval(clock, 10)
     insertMines(i,j)
     setMinesNegsCount(gBoard)
@@ -125,7 +130,6 @@ function firstClick(event,el, i, j){
 }
 
 function gameClick(event,el, i, j){
-    console.log(gGame.moves);
     if (gBoard[i][j].isShown) return
     var elEmoji = document.querySelector('.emoji')
     if (gBoard[i][j].containing === gEmoJi.MINE){
@@ -148,6 +152,8 @@ function gameClick(event,el, i, j){
         gGame.lastMineCoord = {i,j}
         renderBoard(gBoard)
         setTimeout(makeExplosion,500)
+        console.log('gGame.shownCount',gGame.shownCount);
+        console.log('gGame.markedCount',gGame.markedCount);
         if (checkGameOver()){
             clearInterval(gClockInterval)
             elEmoji.innerText = gEmoJi.LOSE
@@ -243,8 +249,8 @@ function cellMarked(el,i,j){
 
 function checkGameOver(){
     if (gGame.lifeCount === 0 || gGame.mineExploded === gLevel.MINES ||
-        (gGame.shownCount + gGame.markedCount === (gLevel.SIZE ** 2)) &&
-        gGame.markedCount === gLevel.MINES){
+        (gGame.shownCount + gGame.markedCount === (gLevel.SIZE ** 2)) 
+        ){
             gGame.isOn = false
             return true
     }
@@ -288,7 +294,9 @@ function resetGame(){
         useHint: false, 
         hints: 3,
         safeClickLeft: 3,
-        moves: [] //for the undo function
+        moves: [], //for the undo function
+        isManually: false,
+        minesToInput: gLevel.MINES
     }
     if (gLevel.SIZE === 4){
         var elLife = document.querySelector('.lives')
@@ -424,6 +432,24 @@ function undo(el){
     gGame.moves.splice(gGame.moves.length - 1,1)
     gBoard[idx][jdx].isShown = false
     renderBoard(gBoard)
+}
+
+function manually(el){
+    initGame()
+    gGame.isManually = true
+}
+
+function inputMines(el,i,j){
+    gBoard[i][j].containing = gEmoJi.MINE
+    el.innerHTML = gEmoJi.MINE
+    gGame.minesToInput--
+    if (gGame.minesToInput === 0){
+        gGame.isManually = false
+        setTimeout(renderBoard,1000)
+        gClockInterval = setInterval(clock, 10)
+        setMinesNegsCount(gBoard)
+        gGame.isFirstClick = false
+    }
 }
 
 
