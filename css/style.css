@@ -1,100 +1,104 @@
-
 body {
     text-align: center; 
-    
-
     background-color: #25316D;
     background-image: linear-gradient(0deg, #25316D 0%, #5F6F94 100%);
     background-repeat: no-repeat;
 }
+
 h1{
     background-color: #0F3460;
     margin: 10px;
-    margin-left: 20%;
-    margin-right: 20%;
     border: #FEF5AC solid 2px;
+    border-radius: 5%;
 }
+
 h2{
-    margin: 10px;
-    margin-bottom: 0;
-    background-color: #647E68;
-    margin-left: 10%;
-    margin-right: 10%;
 }
+
 h4{
-    margin-top: 2px;
+    /* margin-top: 2px; */
 }
+
 div {
     margin: auto;
-    width: 80%;
-    border: 3px solid green;
-    padding: 10px;
-    min-width: 640px;
-    /* width: 1000px;
-    height: 665px;
-    margin-left: 10%; */
-    background-color: #647E68;
-    /* margin-top: 10px; */
+    /* margin-left: 3svh; */
+    
 }
+
 table{ 
-    /* position: fixed; */
-    margin: auto;
-    padding-top: 2.5px;
-    /* padding-left: 30%; */
-    /* padding-top: 15px;
-    margin-left: 30%;
-    margin-right: 10%; */
+    /* position: relative;
+
+    margin: 3vh; */
+    /* margin: auto; */
+    /* padding-top: 2.5px; */
 }
 
 td{
-    
-    width: 43px;
+    width: 3vw;
+    height: 3vw;
+    max-width: 60px;
+    max-height: 60px;
+    min-width: 30px;
+    min-height: 30px;
+    /* width: 43px;
     height: 43px;
     min-width: 43px;
     min-height: 43px;
-    max-width: 43px;
-    max-height: 43px;
+   */ 
 }
+
 .cell {
-    border: 3px solid white;
-    
-    
+    border: 3px solid white;    
 }
+
+.clicked{
+    width: 3vw;
+    height: 3vw;
+    /* width: 49px;
+    height: 49px;
+    min-width: 49px;
+    min-height: 49px;
+    max-width: 49px;
+    max-height: 49px; */
+    font-size: 2vw;
+    background-color: #562B08;
+    border: none;   
+}
+
 .un-clicked{
     background-color: #FEF5AC;
-    /* box-shadow: 13px 9px 13px 9px #192e2e00; */
-    /* font-size: 0px;*/
 } 
 
 .un-clicked:hover{
     cursor: pointer;
     background-color: rgb(94, 190, 190);
-
 }
 
 button {
     background-color: #FEF5AC;
     border-radius: 20%;
-    height: 31px;
+    height: 3vh;
     font-size: large;
     border: solid 4px #647E68;
 }
-.clicked{
-    width: 49px;
-    height: 49px;
-    min-width: 49px;
-    min-height: 49px;
-    max-width: 49px;
-    max-height: 49px;
-    font-size: 30px;
-    background-color: #562B08;
-    border: none;
-    
+
+button:hover{
+    cursor: pointer;
+    background-color: #8a7777 ;
 }
+
+span{
+    background-color: #0F3460;
+    color: #FEF5AC;
+    padding: 1px;
+    border: solid #FEF5AC 2px;
+    margin: 1px;
+}
+
 .clock{
     object-position: 50%;
     padding: 5px;
-    margin-left: 50%;
+    /* margin-left: 50%; */
     font-size: x-large;
 }
 
@@ -106,34 +110,29 @@ button {
 }
 
 .hints{
-    margin-left: 100px;
-}
-
-button:hover{
-    cursor: pointer;
-    background-color: #8a7777 ;
 }
 
 .modal {
     display: none; 
     position: fixed;
-    z-index: 1;
+    z-index: 11;
     padding: 10px; 
     left: 0;
     top: 0;
-    width: 300px; 
-    height: 170px; 
+    width: 100vw; 
+    height: 100vh; 
     background-color: rgb(0,0,0); 
     background-color: rgba(0,0,0,0.4); 
-  }
+}
   
 .modal-content {
+    position: relative;
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
     width: 250px;
-    height: 130px;
+    height: 200px;
 }
 
 .close {
@@ -150,14 +149,6 @@ button:hover{
     cursor: pointer;
 }
 
-span{
-    background-color: #0F3460;
-    color: #FEF5AC;
-    padding: 1px;
-    border: solid #FEF5AC 2px;
-    margin: 1px;
-}
-
 .fx {
     width: 20px;
     min-width: 20px;
@@ -172,6 +163,7 @@ span{
     background-color: #000;
     color: red;
 }
+
 .safeBtn:hover{
     cursor: none;
     background-color: #000;

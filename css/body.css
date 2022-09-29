@@ -1,0 +1,65 @@
+.banner{
+    /* position: relative;
+    top: 0; */
+    width: 50vw;
+    height: 13vh;
+}
+
+.left-side-bar{
+    position: relative;
+    top: 15;
+    /* left: 10%; */
+    width: 25vw;
+    height: 60vh;
+    float: left;
+    left: 8vw;
+    /* transform: translate(-5vw); */
+    /* margin-left: 5vw; */
+}
+
+.main-content{
+    position: relative;
+    /* top: 15vh; */
+    float: left;
+    width: 55vw;
+    height: 60vh;
+    padding: 10px;
+    left: 40vw;
+    transform: translate(-45vw);
+    z-index: 10;
+}
+
+
+.right-side-bar{
+    position: relative;
+    /* top: 15vh; */
+    float: left;
+    width: 15vw;
+    right: 12vw;
+    height: 60vh;
+    
+}
+
+.footer{
+    position: absolute;
+    bottom: 5vh;
+    left: 5vw;
+    width: 40vw;
+    height: 3vh;
+}
+
+table{
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+h1{
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+p{
+    font-size: large;
+}

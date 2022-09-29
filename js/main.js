@@ -78,7 +78,7 @@ function renderBoard(board = gBoard){
         strHTML += '\n'
     }
     strHTML += '</table>'
-    var elBoard = document.querySelector('div')
+    var elBoard = document.querySelector('.main-content')
     elBoard.innerHTML = strHTML
 }
 

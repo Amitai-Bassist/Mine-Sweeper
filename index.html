@@ -4,32 +4,46 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mine Sweeper-Amitai Bassist</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/body.css">
 </head>
 <body oncontextmenu="return false" onload="initGame()">
-    <h1 on>Mine Sweeper</h1>
-    <button onclick="choseLevel(4,2)">Beginnr</button>
-    <button onclick="choseLevel(8,14)">Medium</button>
-    <button onclick="choseLevel(12,32)">Expert</button>
-    <h2>Lives: <span class="lives"> 💗 💗 💗 </span>         
-        Mines left: <span class="mines">2</span>
-        best player: <span class="player">amitai</span>best time: <span class="time">300</span>sec</h2>
-    <table class="clock">
-        <tr>
-            <td class="seconds">00</td>
-            <td class="fx">:</td>
-            <td class="tens">00</td>
-        </tr>
-    </table>
-    <button onclick="userFace(event,this)" class="emoji">🙂</button>
-    <button id="myBtn" class="hints">💡  💡  💡 </button>
-    <button class="safeBtn btn" onclick="safeClick(this)">safe click</button>
-    <button class="" onclick="undo(this)">UNDO</button>
-    <button class="" onclick="manually(this)">manually create</button>
-    <div>
+    <div class="banner">
+        <h1 on>Mine Sweeper</h1>
+        <button onclick="choseLevel(4,2)">Beginnr</button>
+        <button onclick="choseLevel(8,14)">Medium</button>
+        <button onclick="choseLevel(12,32)">Expert</button><br>
+        <button onclick="userFace(event,this)" class="emoji">🙂</button>
     </div>
-    <h4>Amitai Bassist - sprint 1 codding academy</h4>
+    <div class="left-side-bar">
+        <p>Indications:</p>
+        <h2>Lives: <br><span class="lives"> 💗 💗 💗 </span><br>         
+            Mines left: <br><span class="mines">2</span><br>
+            best player: <br><span class="player">amitai</span><br> best time: <br><span class="time">300</span>sec</h2>
+        <p>Time:</p>
+        <table class="clock">
+            <tr>
+                <td class="seconds">00</td>
+                <td class="fx">:</td>
+                <td class="tens">00</td>
+            </tr>
+        </table>
+    </div>
+    <div class="main-content">
+
+    </div>
+    <div class="right-side-bar">
+        <p>Features:</p>
+        <button id="myBtn" class="hints">💡  💡  💡 </button><br><br>
+        <button class="safeBtn btn" onclick="safeClick(this)">safe click</button><br>
+        <button class="" onclick="undo(this)">UNDO</button><br>
+        <button class="" onclick="manually(this)">manually create</button>
+    </div>
+    <div class="footer">
+        <h4>Amitai Bassist - sprint 1 codding academy</h4>
+    </div>
+    
     <div id="myModal" class="modal">
         <div class="modal-content">
           <span class="close">&times;</span>
